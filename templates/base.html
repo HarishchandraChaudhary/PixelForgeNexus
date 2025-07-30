@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PixelForge Nexus - {{ title }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">PixelForge Nexus</div>
+            <ul>
+                {% if current_user.is_authenticated %}
+                    <li><a href="{{ url_for('index') }}">Dashboard</a></li>
+                    {% if is_admin %}
+                        <li><a href="{{ url_for('add_project') }}">Add Project</a></li>
+                        <li><a href="{{ url_for('register') }}">Register User</a></li>
+                        <li><a href="{{ url_for('users') }}">Manage Users</a></li>
+                    {% endif %}
+                    <li><a href="{{ url_for('account_settings') }}">Account Settings</a></li>
+                    <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                {% else %}
+                    <li><a href="{{ url_for('login') }}">Sign In</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <div class="flash-messages">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+        </div>
+        {% block content %}{% endblock %}
+    </main>
+    <footer>
+        <p>&copy; 2025 Creative SkillZ LLC. All rights reserved.</p>
+    </footer>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

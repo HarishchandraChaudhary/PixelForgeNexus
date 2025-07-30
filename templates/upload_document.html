@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Upload Document for Project: {{ project.name }}</h2>
+    <form action="" method="post" enctype="multipart/form-data" novalidate class="form-container">
+        {{ form.hidden_tag() }}
+        <p>
+            <label for="document">Select Document:</label><br>
+            <input type="file" name="document" id="document" required>
+        </p>
+        <p>{{ form.submit() }}</p>
+    </form>
+    <p><a href="{{ url_for('project_details', project_id=project.id) }}" class="button secondary">Back to Project Details</a></p>
+{% endblock %}

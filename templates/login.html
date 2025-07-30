@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Sign In</h2>
+    <form action="" method="post" novalidate class="form-container">
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.username.label }}<br>
+            {{ form.username(size=32) }}
+            {# Display field-specific errors for username #}
+            {% for error in form.username.errors %}
+                <span class="error">{{ error }}</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.password.label }}<br>
+            {{ form.password(size=32) }}
+            {# Display field-specific errors for password #}
+            {% for error in form.password.errors %}
+                <span class="error">{{ error }}</span>
+            {% endfor %}
+        </p>
+        <p>{{ form.submit() }}</p>
+
+        {# Add a general error display for non-field errors (like CSRF) #}
+        {# These errors might be present in form.errors or form.non_field_errors #}
+        {% if form.errors %}
+            <div class="alert alert-danger">
+                {% for field, errors in form.errors.items() %}
+                    {% if field == 'csrf_token' %} {# Special handling for CSRF errors #}
+                        <p class="error">Security Error: Please refresh the page and try again. (CSRF Token Missing/Invalid)</p>
+                    {% else %}
+                        {# This catches any other unexpected non-field errors #}
+                        <p class="error">{{ field }}: {% for error in errors %}{{ error }}{% endfor %}</p>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% endif %}
+
+    </form>
+{% endblock %}

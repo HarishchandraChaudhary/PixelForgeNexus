@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Assign Developers to Project: {{ project.name }}</h2>
+    <form action="" method="post" novalidate class="form-container">
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.developers.label }}<br>
+            {{ form.developers() }}
+            {% for error in form.developers.errors %}
+                <span class="error">{{ error }}</span>
+            {% endfor %}
+        </p>
+        <p>{{ form.submit() }}</p>
+    </form>
+    <p><a href="{{ url_for('project_details', project_id=project.id) }}" class="button secondary">Back to Project Details</a></p>
+{% endblock %}

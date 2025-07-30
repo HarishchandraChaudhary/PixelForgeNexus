@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Edit Role for User: {{ user.username }}</h2>
+    <form action="" method="post" novalidate class="form-container">
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.username.label }}<br>
+            {{ form.username(size=32) }}
+        </p>
+        <p>
+            {{ form.role.label }}<br>
+            {{ form.role() }}
+            {% for error in form.role.errors %}
+                <span class="error">{{ error }}</span>
+            {% endfor %}
+        </p>
+        <p>{{ form.submit() }}</p>
+    </form>
+    <p><a href="{{ url_for('users') }}" class="button secondary">Back to User Management</a></p>
+{% endblock %}

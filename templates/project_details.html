@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Project: {{ project.name }}</h2>
+    <p><strong>Description:</strong> {{ project.description }}</p>
+    <p><strong>Deadline:</strong> {{ project.deadline.strftime('%Y-%m-%d') }}</p>
+    <p><strong>Lead:</strong> {% if project.lead %}{{ project.lead.username }}{% else %}Not Assigned{% endif %}</p>
+    <p><strong>Status:</strong> {% if project.is_completed %}Completed{% else %}Active{% endif %}</p>
+
+    <h3>Assigned Team Members:</h3>
+    {% if project.assigned_developers.all() %}
+        <ul>
+            {% for developer in project.assigned_developers %}
+                <li>{{ developer.username }} ({{ developer.role }})</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No developers assigned yet.</p>
+    {% endif %}
+
+    {% if is_admin or (is_project_lead and current_user.id == project.lead_id) %}
+        <p><a href="{{ url_for('assign_team', project_id=project.id) }}" class="button">Assign Team Members</a></p>
+    {% endif %}
+
+    <h3>Project Documents:</h3>
+    {% if project.documents.all() %}
+        <ul>
+            {% for document in project.documents %}
+                <li>
+                    <a href="{{ url_for('uploaded_file', filename=document.filename) }}" target="_blank">{{ document.filename }}</a>
+                    (Uploaded by: {{ document.uploader.username }} on {{ document.upload_date.strftime('%Y-%m-%d %H:%M') }})
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No documents uploaded yet.</p>
+    {% endif %}
+
+    {% if is_admin or (is_project_lead and current_user.id == project.lead_id) %}
+        <p><a href="{{ url_for('upload_document', project_id=project.id) }}" class="button">Upload Document</a></p>
+    {% endif %}
+
+    <p><a href="{{ url_for('index') }}" class="button secondary">Back to Dashboard</a></p>
+{% endblock %}

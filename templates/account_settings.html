@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Account Settings for {{ current_user.username }}</h2>
+
+    <h3>Update Password</h3>
+    <form action="" method="post" novalidate class="form-container">
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.old_password.label }}<br>
+            {{ form.old_password(size=32) }}
+            {% for error in form.old_password.errors %}
+                <span class="error">{{ error }}</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.new_password.label }}<br>
+            {{ form.new_password(size=32) }}
+            {% for error in form.new_password.errors %}
+                <span class="error">{{ error }}</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.new_password2.label }}<br>
+            {{ form.new_password2(size=32) }}
+            {% for error in form.new_password2.errors %}
+                <span class="error">{{ error }}</span>
+            {% endfor %}
+        </p>
+        <p>{{ form.submit() }}</p>
+    </form>
+
+    {# MFA Implementation - Placeholder #}
+    <h3>Multi-Factor Authentication (Optional)</h3>
+    <p>MFA is not yet implemented in this prototype. This section would typically contain options to set up and manage MFA, e.g., using TOTP (Time-based One-Time Password) with an authenticator app.</p>
+    <p><strong>Example of MFA integration steps:</strong></p>
+    <ol>
+        <li>User initiates MFA setup.</li>
+        <li>Server generates a secret key and displays a QR code.</li>
+        <li>User scans QR code with authenticator app.</li>
+        <li>User enters a code from the app to verify setup.</li>
+        <li>Server verifies the code and enables MFA for the user.</li>
+        <li>On subsequent logins, after password, user is prompted for MFA code.</li>
+    </ol>
+    {# End MFA Placeholder #}
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Welcome, {{ current_user.username }}!</h2>
+    <h3>Your Projects</h3>
+
+    {% if projects %}
+        <ul class="project-list">
+            {% for project in projects %}
+                <li>
+                    <a href="{{ url_for('project_details', project_id=project.id) }}">
+                        <h4>{{ project.name }} {% if project.is_completed %} (Completed){% endif %}</h4>
+                    </a>
+                    <p>{{ project.description }}</p>
+                    <p>Deadline: {{ project.deadline.strftime('%Y-%m-%d') }}</p>
+                    {% if project.lead %}
+                        <p>Lead: {{ project.lead.username }}</p>
+                    {% else %}
+                        <p>Lead: Not Assigned</p>
+                    {% endif %}
+                    {% if current_user.is_admin() and not project.is_completed %}
+                        <a href="{{ url_for('mark_project_completed', project_id=project.id) }}" class="button small">Mark as Completed</a>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No projects to display.</p>
+    {% endif %}
+{% endblock %}

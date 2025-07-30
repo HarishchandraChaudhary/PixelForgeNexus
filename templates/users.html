@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Manage Users</h2>
+
+    {% if users %}
+        <table class="user-table">
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                <tr>
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.role }}</td>
+                    <td>
+                        <a href="{{ url_for('edit_user_role', user_id=user.id) }}" class="button small">Edit Role</a>
+                        {% if user.id != current_user.id %} {# Cannot delete own account #}
+                        <form action="{{ url_for('delete_user', user_id=user.id) }}" method="post" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete user {{ user.username }}? This action is irreversible.');">
+                            <button type="submit" class="button small danger">Delete</button>
+                        </form>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No users registered.</p>
+    {% endif %}
+
+    <p><a href="{{ url_for('register') }}" class="button">Register New User</a></p>
+{% endblock %}
