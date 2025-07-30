@@ -104,7 +104,7 @@ Git: For cloning the repository (if you're not downloading the zip).
 Installation Steps
 Clone the Repository (or download and extract the zip):
 
-git clone https://github.com/YOUR_GITHUB_USERNAME/PixelForgeNexus.git
+git clone https://github.com/HarishchandraChaudhary/PixelForgeNexus.git
 cd PixelForgeNexus
 
 (Replace YOUR_GITHUB_USERNAME with your actual GitHub username)
